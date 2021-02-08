@@ -1,5 +1,6 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GitHubStrategy = require("passport-github2").Strategy;
 
 passport.serializeUser(function (user, done) {
   /*
@@ -37,6 +38,19 @@ passport.use(
       //  If yes select the user and pass him to the done callback
       //  If not create the user and then select him and pass to callback
       // */
+      return done(null, profile);
+    }
+  )
+);
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: "407343c18d6d9c673aa6",
+      clientSecret: "737cad7caf5fb4078fe1e6be74daa8993b9a0991",
+      callbackURL: "http://localhost:3000/auth/github/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
       return done(null, profile);
     }
   )

@@ -59,6 +59,17 @@ app.get(
   }
 );
 
+app.get("/github", passport.authenticate("github", { scope: ["user:email"] }));
+
+app.get(
+  "/auth/github/callback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/good");
+  }
+);
+
 app.get("/logout", (req, res) => {
   req.session = null;
   req.logout();
